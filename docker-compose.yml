@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./example-nestjs
+    container_name: example-nestjs-backend
+    env_file:
+      - ./example-nestjs/.env
+    ports:
+      - '1337:1337'
+    volumes:
+      - ./example-nestjs/src:/usr/src/app/src
+    command: npm run start:dev
+  frontend:
+    build:
+      context: ./example-nextjs
+    container_name: example-nextjs-frontend
+    env_file:
+      - ./example-nextjs/.env
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./example-nextjs/src:/usr/src/app/src
+    command: npm run dev
