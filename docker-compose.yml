@@ -1,5 +1,16 @@
 services:
+  database:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - be-db-network
+
   backend:
+    depends_on:
+      - database
     build:
       context: ./example-nestjs
     container_name: example-nestjs-backend
@@ -10,6 +21,10 @@ services:
     volumes:
       - ./example-nestjs/src:/usr/src/app/src
     command: npm run start:dev
+    networks:
+      - be-db-network
+      - be-fe-network
+
   frontend:
     build:
       context: ./example-nextjs
@@ -21,3 +36,11 @@ services:
     volumes:
       - ./example-nextjs/src:/usr/src/app/src
     command: npm run dev
+    networks:
+      - be-fe-network
+
+networks:
+  be-db-network:
+    driver: bridge
+  be-fe-network:
+    driver: bridge
