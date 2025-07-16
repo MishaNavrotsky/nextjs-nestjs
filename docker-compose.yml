@@ -4,18 +4,26 @@ services:
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_PASSWORD: password
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     networks:
       - be-db-network
 
+  cache:
+    image: redis
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass redis
+    networks:
+      - be-db-network
   backend:
     depends_on:
       - database
+      - cache
     build:
       context: ./example-nestjs
     container_name: example-nestjs-backend
     env_file:
-      - ./example-nestjs/.env
+      - ./example-nestjs/.env.development
     ports:
       - '1337:1337'
     volumes:
@@ -30,7 +38,7 @@ services:
       context: ./example-nextjs
     container_name: example-nextjs-frontend
     env_file:
-      - ./example-nextjs/.env
+      - ./example-nextjs/.env.development
     ports:
       - '3000:3000'
     volumes:
