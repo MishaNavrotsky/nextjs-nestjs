@@ -2,7 +2,7 @@ import { Entity, Column, TableForeignKey, ManyToMany, ManyToOne, JoinColumn } fr
 import BaseModel from './base.entity';
 import { User } from './user.entity';
 
-@Entity('item')
+@Entity('items')
 export class Item extends BaseModel {
   @ManyToOne(() => User, (user) => user.items, { onDelete: 'CASCADE' })
   user: User;
