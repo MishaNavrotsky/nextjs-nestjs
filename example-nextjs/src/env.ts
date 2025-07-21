@@ -1,0 +1,1 @@
+export const BACKEND_URI: string = process.env.NEXT_PUBLIC_BACKEND_URI!;

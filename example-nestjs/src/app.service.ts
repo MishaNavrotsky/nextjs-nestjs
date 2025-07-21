@@ -12,11 +12,6 @@ export class AppService {
   ) { }
 
   async getHello(): Promise<string> {
-    console.log(await this.userRepository.count());
-    const user = this.userRepository.create();
-    user.email = "test@test.com"
-    user.password = "123";
-    user.save();
     return 'Hello World!';
   }
 }
